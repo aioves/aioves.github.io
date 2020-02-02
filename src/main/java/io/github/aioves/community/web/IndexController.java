@@ -1,5 +1,6 @@
 package io.github.aioves.community.web;
 
+import io.github.aioves.community.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class IndexController {
     public String index(Model model) {
         Integer state = random.nextInt(10)*12+17;
         log.info("state={}", state);
+
         model.addAttribute("authorizeUrl", authorizeUrl + state);
 
         return "index";

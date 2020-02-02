@@ -2,14 +2,18 @@ package io.github.aioves.community.web;
 
 import io.github.aioves.community.dto.AccessTokenDTO;
 import io.github.aioves.community.dto.GithubUser;
+import io.github.aioves.community.model.User;
 import io.github.aioves.community.provider.GithubProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -37,7 +41,8 @@ public class AuthorizeController {
 
     @GetMapping(path = "/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state) {
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) {
 
         //封装请求信息
         AccessTokenDTO tokenDTO = new AccessTokenDTO();
@@ -55,12 +60,18 @@ public class AuthorizeController {
             //获取Github 用户信息
             GithubUser githubUser = githubProvider.getGithubUser(accessToken);
 
+            if(null != githubUser) {
+                User user = new User();
+                BeanUtils.copyProperties(githubUser, user);
+                request.getSession().setAttribute("usr", user);
+            }
+
+
         } catch (IOException e) {
-            log.error("{}", "get github access token fail!");
+            log.error("{}", "get github access token fail! " + e.getMessage());
         }
 
-
-        return "index";
+        return "redirect:index";
     }
 
 
