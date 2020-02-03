@@ -1,59 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="m">
-<head>
-    <meta charset="UTF-8">
-    <title>Aioves社区</title>
-
-    <link rel="stylesheet" href="css/bootstrap.css" th:href="@{~/css/bootstrap.css}">
-    <link rel="stylesheet" href="css/bootstrap-theme.css.css" th:href="@{~/css/bootstrap-theme.css}">
-
-    <script type="text/javascript" src="jquery-3.4.1.slim.min.js" th:src="@{~/jquery-3.4.1.slim.min.js}"></script>
-    <script type="text/javascript" src="js/bootstrap.js" th:src="@{~/js/bootstrap.js}"></script>
-
-    <!--引入自定义-->
-    <link rel="stylesheet" href="css/main.css" th:href="@{~/css/main.css}">
-
-</head>
+<head th:fragment="~{fragment/head :: head}"></head>
 <body>
 
-<header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Aioves社区</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/" th:href="@{~/}">Aioves社区</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="关键词">
-                    </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" th:href="${authorizeUrl}" th:if="${session.usr} == null">登录</a></li>
-                    <li class="dropdown" th:if="${session.usr} != null">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="${session.usr.login}"></span> <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">消息中心</a></li>
-                            <li><a href="#">个人资料</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-</header>
+<header th:fragment="~{fragment/header :: header}"></header>
 
 <div class="container">
     <div class="row" th:if="${error} != null">
