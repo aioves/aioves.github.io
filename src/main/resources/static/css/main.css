@@ -3,3 +3,7 @@
 .btn-size {
     width: 160px;
 }
+
+.publish-btn {
+    float: right;
+}

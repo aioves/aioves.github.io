@@ -56,6 +56,13 @@
 </header>
 
 <div class="container">
+    <div class="row" th:if="${error} != null">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>错误!</strong> <span th:text="${error}"></span>
+        </div>
+    </div>
+
     <div class="row">
         <!--左侧栏-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -63,7 +70,7 @@
                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h1>
             </div>
 
-            <form>
+            <form action="/publish" th:action="@{~/publish}" method="post" th:method="post">
                 <div class="form-group">
                     <label for="title">问题标题(简单扼要)：</label>
                     <input type="text" class="form-control" name="title" id="title" placeholder="简明标题">
@@ -78,7 +85,7 @@
                     <label for="tags">添加标签：</label>
                     <input type="text" class="form-control" name="tags" id="tags" placeholder="标签">
                 </div>
-                <button type="submit" class="btn btn-info btn-size">发布</button>
+                <button type="submit" class="btn btn-info btn-size publish-btn">发布</button>
             </form>
 
         </div>
