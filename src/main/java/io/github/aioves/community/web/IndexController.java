@@ -1,12 +1,16 @@
 package io.github.aioves.community.web;
 
+import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Random;
 
 /**
@@ -25,14 +29,37 @@ public class IndexController {
     @Value("${github.app.login.authorize.url}")
     private String authorizeUrl;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping(path = "/")
-    public String index(Model model) {
+    public String home(Model model, HttpServletRequest request) {
         Integer state = random.nextInt(10)*12+17;
         log.info("state={}", state);
 
         model.addAttribute("authorizeUrl", authorizeUrl + state);
 
+
+        Cookie[] cookies = request.getCookies();
+        if(null!=cookies) {
+            for(int index = 0, len = cookies.length; index<len; index++) {
+                Cookie cookie = cookies[index];
+                if("token".equals(cookie.getName())) {
+                    String token = cookie.getValue();
+                    log.info("token={}", token);
+                    User user = userMapper.findUserByToken(token);
+                    if(null!=user) {
+                        request.getSession().setAttribute("usr", user);
+                    }
+                }
+            }
+        }
+
         return "index";
     }
 
+    @GetMapping(path = "/index")
+    public String index(Model model, HttpServletRequest request) {
+        return home(model, request);
+    }
 }

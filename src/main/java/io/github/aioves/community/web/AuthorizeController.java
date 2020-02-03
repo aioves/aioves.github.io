@@ -2,6 +2,7 @@ package io.github.aioves.community.web;
 
 import io.github.aioves.community.dto.AccessTokenDTO;
 import io.github.aioves.community.dto.GithubUser;
+import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.User;
 import io.github.aioves.community.provider.GithubProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @Title:
@@ -39,10 +43,14 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping(path = "/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
 
         //封装请求信息
         AccessTokenDTO tokenDTO = new AccessTokenDTO();
@@ -62,8 +70,18 @@ public class AuthorizeController {
 
             if(null != githubUser) {
                 User user = new User();
+
+                String token = UUID.randomUUID().toString();
+
                 BeanUtils.copyProperties(githubUser, user);
-                request.getSession().setAttribute("usr", user);
+                user.setAccountId(String.valueOf(githubUser.getId()));
+                user.setToken(token);
+                log.info("user={}", user);
+                userMapper.insert(user);
+
+                response.addCookie(new Cookie("token", token));
+            } else {
+                log.error("{}", "获取Github信息失败！");
             }
 
 

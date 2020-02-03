@@ -1,5 +1,6 @@
 package io.github.aioves.community;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2020/2/2 15:25
  *
  */
+@MapperScan("io.github.aioves.community.mapper")
 @SpringBootApplication
 public class CommunityApplication {
 

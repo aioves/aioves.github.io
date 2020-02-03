@@ -3,6 +3,8 @@ package io.github.aioves.community.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Title:
  * @Remarks:
@@ -20,4 +22,9 @@ public class User {
 
     @JSONField(name = "avatar_url")
     private String avatarUrl;
+
+    private String accountId;
+    private String token;
+    private Date createDate;
+    private Date updateDate;
 }

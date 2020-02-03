@@ -1,7 +1,16 @@
 logging:
   level:
     root: info
-    io.github.aioves.community: debug
+    io:
+      github:
+        aioves:
+          community:
+            mapper: debug
+            web: debug
+    org:
+      h2: debug
+      apache:
+        ibatis:  debug
   pattern: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{32} - %msg%n'
 
 server:
@@ -10,3 +19,12 @@ server:
 spring:
   thymeleaf:
     cache: false #开发环境关闭缓存，生产环境开启
+  h2:
+    console:
+      enabled: true #开启H2数据库，默认关闭
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test
+    username: aioves
+    password: aioves
