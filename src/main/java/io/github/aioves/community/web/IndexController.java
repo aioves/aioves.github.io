@@ -1,7 +1,11 @@
 package io.github.aioves.community.web;
 
+import io.github.aioves.community.dto.QuestionDTO;
+import io.github.aioves.community.mapper.QuestionMapper;
 import io.github.aioves.community.mapper.UserMapper;
+import io.github.aioves.community.model.Question;
 import io.github.aioves.community.model.User;
+import io.github.aioves.community.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -31,6 +36,9 @@ public class IndexController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionService questionService;
 
     @GetMapping(path = "/")
     public String home(Model model, HttpServletRequest request) {
@@ -54,6 +62,11 @@ public class IndexController {
                 }
             }
         }
+
+        List<QuestionDTO> questionList = questionService.list();
+        model.addAttribute("questions", questionList);
+
+        log.info("{}", questionList);
 
         return "index";
     }

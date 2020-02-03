@@ -7,3 +7,9 @@
 .publish-btn {
     float: right;
 }
+
+.list-font {
+    font-size: 12px;
+    color: #999999;
+    font-weight: normal;
+}

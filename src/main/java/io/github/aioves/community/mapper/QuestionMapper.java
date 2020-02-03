@@ -1,8 +1,9 @@
 package io.github.aioves.community.mapper;
 
 import io.github.aioves.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @Title:
@@ -16,4 +17,7 @@ public interface QuestionMapper {
 
     @Insert("insert into question(title, detail, tags, created_by) values(#{title}, #{detail}, #{tags}, #{createdBy})")
     void insert(Question question);
+
+    @Select("select * from question")
+    List<Question> findAll();
 }

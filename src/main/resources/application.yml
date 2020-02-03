@@ -29,3 +29,7 @@ spring:
     url: jdbc:h2:~/community
     username: aioves
     password: aioves
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

@@ -5,13 +5,14 @@ create table question
     id int auto_increment,
     title varchar(64),
     detail text,
-    create_date timestamp default current_timestamp(),
-    update_date timestamp default current_timestamp(),
-    created_by int,
-    comment_cout int default 0,
+    comment_count int default 0,
     view_count int default 0,
     like_count int default 0,
-    tags varchar(128)
+    tags varchar(128),
+    created_by int,
+    create_date timestamp default current_timestamp(),
+    update_date timestamp default current_timestamp()
+
 );
 
 --add comment
