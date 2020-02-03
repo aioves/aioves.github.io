@@ -1,0 +1,76 @@
+package io.github.aioves.community.dto;
+
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * @Title:
+ * @Remarks:
+ * @Author: <a href="mailto:aioves@foxmail.com>aioves</a>
+ * @Version: 1.0.0
+ * @Date: 2020-02-04 1:18
+ */
+@Data
+public class PaginationDTO {
+
+    private Integer firstPage=1;
+    private boolean showPrevious;
+    private boolean showFirstPage;
+    private boolean showNext;
+    private boolean showEndPage;
+    private Integer page;
+    private Integer totalPage;
+
+    private List<Integer> pages = new ArrayList<>();
+    private List<QuestionDTO> questions;
+
+    public void setPagination(Integer totalCount, Integer page, Integer size){
+        this.page = page;
+
+        totalPage = totalCount%size==0?totalCount/size:totalCount/size+1;
+
+        pages.add(page);
+        for(int index=1; index<=3; index++) {
+            if(page-index>0) {
+                pages.add(page-index);
+            }
+
+            if(page+index<=totalPage) {
+                pages.add(page+index);
+            }
+        }
+
+        Collections.sort(pages);
+
+        /*是否展示上一页*/
+        if(page==1) {
+            showPrevious = false;
+        } else {
+            showPrevious = true;
+        }
+
+        /*是否展示下一页*/
+        if(totalPage == page) {
+            showNext = false;
+        } else {
+            showNext = true;
+        }
+
+        /*是否展示第一页*/
+        if(pages.contains(1)) {
+            showFirstPage = false;
+        } else {
+            showFirstPage = true;
+        }
+
+        /*是否展示最后一页*/
+        if(pages.contains(totalPage)) {
+            showEndPage = false;
+        } else {
+            showEndPage = true;
+        }
+    }
+}

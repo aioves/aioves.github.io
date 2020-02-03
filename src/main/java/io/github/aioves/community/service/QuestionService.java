@@ -1,5 +1,6 @@
 package io.github.aioves.community.service;
 
+import io.github.aioves.community.dto.PaginationDTO;
 import io.github.aioves.community.dto.QuestionDTO;
 import io.github.aioves.community.mapper.QuestionMapper;
 import io.github.aioves.community.mapper.UserMapper;
@@ -28,10 +29,11 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionDTO> list() {
+    public PaginationDTO list(Integer page, Integer pageSize) {
         ArrayList<QuestionDTO> questionDTOArrayList = new ArrayList<>();
 
-        List<Question> questionList = questionMapper.findAll();
+        Integer offset = pageSize * (page - 1);
+        List<Question> questionList = questionMapper.findQuestionByPager(offset, pageSize);
 
         for(int index=0, size=questionList.size(); index<size; index++) {
             QuestionDTO questionDTO = new QuestionDTO();
@@ -45,6 +47,16 @@ public class QuestionService {
             questionDTOArrayList.add(questionDTO);
         }
 
-        return questionDTOArrayList;
+        int totalCount = questionMapper.count();
+        int totalPage = totalCount%pageSize==0?totalCount/pageSize:totalCount/pageSize+1;
+        if(page>totalPage) {
+            page = totalPage;
+        }
+
+        PaginationDTO pagination = new PaginationDTO();
+        pagination.setQuestions(questionDTOArrayList);
+        pagination.setPagination(totalCount, page, pageSize);
+
+        return pagination;
     }
 }

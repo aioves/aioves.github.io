@@ -20,4 +20,11 @@ public interface QuestionMapper {
 
     @Select("select * from question")
     List<Question> findAll();
+
+    @Select("select count(1) from question")
+    Integer count();
+
+    @Select("select * from question limit #{offset}, #{pageSize}")
+    List<Question> findQuestionByPager(@Param("offset") Integer offset,
+                                       @Param("pageSize") Integer pageSize);
 }

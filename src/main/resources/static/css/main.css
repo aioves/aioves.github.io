@@ -13,3 +13,8 @@
     color: #999999;
     font-weight: normal;
 }
+
+.page-active {
+    background-color: #337ab7;
+    color: white;
+}

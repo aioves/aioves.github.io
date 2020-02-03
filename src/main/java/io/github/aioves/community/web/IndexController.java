@@ -1,5 +1,6 @@
 package io.github.aioves.community.web;
 
+import io.github.aioves.community.dto.PaginationDTO;
 import io.github.aioves.community.dto.QuestionDTO;
 import io.github.aioves.community.mapper.QuestionMapper;
 import io.github.aioves.community.mapper.UserMapper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +43,9 @@ public class IndexController {
     private QuestionService questionService;
 
     @GetMapping(path = "/")
-    public String home(Model model, HttpServletRequest request) {
+    public String home(@RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+                       Model model,
+                       HttpServletRequest request) {
         Integer state = random.nextInt(10)*12+17;
         log.info("state={}", state);
 
@@ -63,16 +67,22 @@ public class IndexController {
             }
         }
 
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+        if(page<=0){
+            page = 1;
+        }
 
-        log.info("{}", questionList);
+        PaginationDTO paginationDTO = questionService.list(page, 10);
+        model.addAttribute("pagination", paginationDTO);
+
+        log.info("{}", paginationDTO);
 
         return "index";
     }
 
     @GetMapping(path = "/index")
-    public String index(Model model, HttpServletRequest request) {
-        return home(model, request);
+    public String index(@RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+                        Model model,
+                        HttpServletRequest request) {
+        return home(page, model, request);
     }
 }
