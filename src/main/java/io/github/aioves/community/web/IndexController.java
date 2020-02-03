@@ -44,6 +44,7 @@ public class IndexController {
 
     @GetMapping(path = "/")
     public String home(@RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+                       @RequestParam(name = "pageSize",required = false, defaultValue = "10") Integer pageSize,
                        Model model,
                        HttpServletRequest request) {
         Integer state = random.nextInt(10)*12+17;
@@ -67,11 +68,17 @@ public class IndexController {
             }
         }
 
+        /*页从1开始*/
         if(page<=0){
             page = 1;
         }
 
-        PaginationDTO paginationDTO = questionService.list(page, 10);
+        /*页数最小为10*/
+        if(pageSize<10) {
+            pageSize = 10;
+        }
+
+        PaginationDTO paginationDTO = questionService.list(page, pageSize);
         model.addAttribute("pagination", paginationDTO);
 
         log.info("{}", paginationDTO);
@@ -81,8 +88,9 @@ public class IndexController {
 
     @GetMapping(path = "/index")
     public String index(@RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+                        @RequestParam(name = "pageSize",required = false, defaultValue = "10") Integer pageSize,
                         Model model,
                         HttpServletRequest request) {
-        return home(page, model, request);
+        return home(page, pageSize, model, request);
     }
 }

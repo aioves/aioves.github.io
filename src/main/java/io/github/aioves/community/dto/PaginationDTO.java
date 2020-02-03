@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @Title:
+ * @Title:  分页
  * @Remarks:
  * @Author: <a href="mailto:aioves@foxmail.com>aioves</a>
  * @Version: 1.0.0
@@ -16,19 +16,29 @@ import java.util.List;
 @Data
 public class PaginationDTO {
 
+    /*页数从1开始*/
     private Integer firstPage=1;
+    /*是否显示上一页*/
     private boolean showPrevious;
+    /*是否显示第一页*/
     private boolean showFirstPage;
+    /*是否显示下一页*/
     private boolean showNext;
+    /*是否显示最后一页*/
     private boolean showEndPage;
+    /*当前页码*/
     private Integer page;
+    /*总页数*/
     private Integer totalPage;
+    /*分页大小*/
+    private Integer pageSize;
 
     private List<Integer> pages = new ArrayList<>();
     private List<QuestionDTO> questions;
 
     public void setPagination(Integer totalCount, Integer page, Integer size){
         this.page = page;
+        this.pageSize = size;
 
         totalPage = totalCount%size==0?totalCount/size:totalCount/size+1;
 
