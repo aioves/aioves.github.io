@@ -124,13 +124,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>io.github.aioves.community.CommunityApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <!--热部署-->
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.2.1</version>
                 <configuration>
-                    <url>jdbc:h2:~/test</url>
+                    <url>jdbc:h2:mem:community</url>
                     <user>aioves</user>
                     <password>aioves</password>
                 </configuration>
