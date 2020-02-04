@@ -21,9 +21,15 @@ public interface UserMapper {
     @Select("select * from user where token=#{token}")
     User findUserByToken(@Param("token") String token);
 
+    @Update("update user set token=#{token} where user_id=#{userId}")
+    void  updateTokenByUserId(@Param("userId") Long userId, @Param("token") String token);
+
     @Select("select * from user")
     List<User> findAll();
 
     @Select("select * from user where user_id=#{userId}")
     User findUserByUserId(@Param("userId") Long userId);
+
+    @Select("select * from user where account_id=#{accountId}")
+    User findUserByAccountId(@Param("accountId") Long accountId);
 }

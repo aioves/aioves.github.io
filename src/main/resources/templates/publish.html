@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="m">
-<head th:fragment="~{fragment/head :: head}"></head>
+<head th:insert="~{fragment/head :: head}"></head>
 <body>
 
-<header th:fragment="~{fragment/header :: header}"></header>
+<header th:insert="~{fragment/header :: header}"></header>
 
 <div class="container">
     <div class="row" th:if="${error} != null">
@@ -41,7 +41,7 @@
         </div>
         <!--右侧栏-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <div class="page-header">
+            <div class="page-header right-top">
                 <h3>问题发起指南</h3>
                 <div>
                     <ul>

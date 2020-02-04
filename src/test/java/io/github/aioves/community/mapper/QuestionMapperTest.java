@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,10 +26,14 @@ public class QuestionMapperTest {
     @Test
     public void testInsert() {
 
-        for(int index = 0; index<77; index++) {
+        Random random = new Random();
+        for(int index = 0; index<186; index++) {
             Question question = new Question();
-            question.setTitle(UUID.randomUUID().toString());
-            question.setCreatedBy(1L);
+            question.setTitle(UUID.randomUUID().toString().replaceAll("-", ""));
+            question.setCreatedBy(34L);
+            question.setCommentCount(random.nextInt(12)*index/3);
+            question.setViewCount(random.nextInt(17)*index/5);
+            question.setLikeCount(random.nextInt(29)*index/7);
             questionMapper.insert(question);
         }
 

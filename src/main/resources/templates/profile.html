@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="m">
-<head th:insert="~{fragment/head :: head}">
-</head>
+<head th:insert="~{fragment/head :: head}"></head>
 <body>
 
 <header th:insert="~{fragment/header :: header}"></header>
@@ -18,7 +17,7 @@
         <!--左侧栏-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div class="page-header">
-                <h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h3>
+                <h3 th:text="${sectionName}"></h3>
             </div>
 
             <div class="media" th:each="question : ${pagination.questions}">
@@ -29,7 +28,7 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading" th:text="${question.title}"></h4>
-                     <span class="list-font">
+                    <span class="list-font">
                          .<span th:text="${question.commentCount}">12</span>个回复
                          .<span th:text="${question.viewCount}">17</span>次浏览
                          .<span th:text="${question.likeCount}">29</span>人关注
@@ -41,29 +40,29 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li th:if="${pagination.showFirstPage}">
-                        <a th:href="@{/(page=${pagination.firstPage}, pageSize=${pagination.pageSize})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.firstPage}, pageSize=${pagination.pageSize})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
 
                     <li th:if="${pagination.showPrevious}">
-                        <a th:href="@{/(page=${pagination.page-1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.page-1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
                     <li th:each="page: ${pagination.pages}">
-                        <a th:href="@{/(page=${page}, pageSize=${pagination.pageSize})}" th:style="${page == pagination.page}?'background-color:#337ab7;color: white;':''" th:text="${page}">1</a>
+                        <a th:href="@{'/profile/'+${section}(action=${section},page=${page}, pageSize=${pagination.pageSize})}" th:style="${page == pagination.page}?'background-color:#337ab7;color: white;':''" th:text="${page}">1</a>
                     </li>
 
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page+1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.page+1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
 
                     <li th:if="${pagination.showEndPage}">
-                        <a th:href="@{/(page=${pagination.totalPage}, pageSize=${pagination.pageSize})}" aria-label="Next">
+                        <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.totalPage}, pageSize=${pagination.pageSize})}" aria-label="Next">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -72,20 +71,18 @@
         </div>
         <!--右侧栏-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <div class="page-header right-top">
-                <h3>问题发起指南</h3>
-                <div>
-                    <ul>
-                        <li>问题标题：请用精简的语言描述您发布的问题，不超过25个字</li>
-                        <li>问题补充：详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料</li>
-                        <li>标签：选择一个或过个合适的标签，并使用逗号隔开；每个标签不超过10个字</li>
-                    </ul>
-                </div>
+            <div class="list-group right-top">
+                <a th:href="@{~/profile/questions}" th:class=" ${section=='questions'}?'active list-group-item':'list-group-item'">
+                    我的问题
+                </a>
+                <a th:href="@{~/profile/replies}" th:class=" ${section=='replies'}?'active list-group-item':'list-group-item'">
+                    最新回复 <span class="badge">14</span>
+                </a>
+
             </div>
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

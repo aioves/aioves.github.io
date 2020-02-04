@@ -36,11 +36,10 @@ public class PaginationDTO {
     private List<Integer> pages = new ArrayList<>();
     private List<QuestionDTO> questions;
 
-    public void setPagination(Integer totalCount, Integer page, Integer size){
+    public void setPagination(Integer totalPage, Integer page, Integer size){
         this.page = page;
         this.pageSize = size;
-
-        totalPage = totalCount%size==0?totalCount/size:totalCount/size+1;
+        this.totalPage = totalPage;
 
         pages.add(page);
         for(int index=1; index<=3; index++) {

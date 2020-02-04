@@ -69,15 +69,21 @@ public class AuthorizeController {
             GithubUser githubUser = githubProvider.getGithubUser(accessToken);
 
             if(null != githubUser) {
-                User user = new User();
 
+                User user = userMapper.findUserByAccountId(githubUser.getId());
                 String token = UUID.randomUUID().toString();
-
-                BeanUtils.copyProperties(githubUser, user);
-                user.setAccountId(String.valueOf(githubUser.getId()));
-                user.setToken(token);
-                log.info("user={}", user);
-                userMapper.insert(user);
+                if(null != user) {
+                    user.setToken(token);
+                    userMapper.updateTokenByUserId(user.getUserId(), token);
+                    log.info("user={}", user);
+                } else {
+                    user = new User();
+                    BeanUtils.copyProperties(githubUser, user);
+                    user.setAccountId(String.valueOf(githubUser.getId()));
+                    user.setToken(token);
+                    log.info("user={}", user);
+                    userMapper.insert(user);
+                }
 
                 response.addCookie(new Cookie("token", token));
             } else {

@@ -12,7 +12,7 @@
     <artifactId>community</artifactId>
     <version>0.0.1</version>
     <name>community</name>
-    <description>Java社区，主要做一个问题、资料、资源平台</description>
+    <description>Java社区，一个集问题、资料、资源统一的平台</description>
 
     <properties>
         <java.version>11</java.version>
@@ -93,9 +93,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>2.4.1</version>
         </dependency>
 
         <dependency>
