@@ -52,22 +52,6 @@ public class IndexController {
 
         model.addAttribute("authorizeUrl", authorizeUrl + state);
 
-
-        Cookie[] cookies = request.getCookies();
-        if(null!=cookies) {
-            for(int index = 0, len = cookies.length; index<len; index++) {
-                Cookie cookie = cookies[index];
-                if("token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-                    log.info("token={}", token);
-                    User user = userMapper.findUserByToken(token);
-                    if(null!=user) {
-                        request.getSession().setAttribute("usr", user);
-                    }
-                }
-            }
-        }
-
         /*页从1开始*/
         if(page<=0){
             page = 1;

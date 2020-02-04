@@ -41,21 +41,7 @@ public class ProfileController {
                           HttpServletRequest request,
                           Model model) {
 
-        User user = null;
-                Cookie[] cookies = request.getCookies();
-        if(null!=cookies) {
-            for(int index = 0, len = cookies.length; index<len; index++) {
-                Cookie cookie = cookies[index];
-                if("token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-                    log.info("token={}", token);
-                    user = userMapper.findUserByToken(token);
-                    if(null!=user) {
-                        request.getSession().setAttribute("usr", user);
-                    }
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("usr");
 
         if(null == user) {
             model.addAttribute("error", "用户未登录");
