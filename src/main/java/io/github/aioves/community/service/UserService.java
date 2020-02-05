@@ -2,10 +2,12 @@ package io.github.aioves.community.service;
 
 import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.User;
+import io.github.aioves.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -23,17 +25,23 @@ public class UserService {
     private UserMapper userMapper;
 
     public void saveOrUpdate(User user) {
-        User dbUser = userMapper.findUserByAccountId(user.getAccountId());
-        if(null == dbUser) { //插入
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+
+        List<User> userList = userMapper.selectByExample(userExample);
+        if(null == userList || userList.size()==0) { //插入
             userMapper.insert(user);
         } else { //更新
-            dbUser.setLogin(user.getLogin());
-            dbUser.setName(user.getName());
-            dbUser.setBio(user.getBio());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setToken(user.getToken());
-            dbUser.setUpdateDate(Calendar.getInstance(Locale.CHINA).getTime());
-            userMapper.update(dbUser);
+            User dbUser = userList.get(0);
+
+
+            user.setUpdateDate(Calendar.getInstance(Locale.CHINA).getTime());
+            user.setCreateDate(Calendar.getInstance(Locale.CHINA).getTime());
+            user.setUserId(dbUser.getUserId());
+
+            UserExample example = new UserExample();
+            example.createCriteria().andUserIdEqualTo(user.getUserId());
+            userMapper.updateByExampleSelective(user, example);
         }
     }
 }

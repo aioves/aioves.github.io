@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.aioves.community.mapper.QuestionMapper">
+  <resultMap id="BaseResultMap" type="io.github.aioves.community.model.Question">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
+    <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
+    <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
+    <result column="TAGS" jdbcType="VARCHAR" property="tags" />
+    <result column="CREATED_BY" jdbcType="INTEGER" property="createdBy" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="io.github.aioves.community.model.Question">
+    <result column="DETAIL" jdbcType="CLOB" property="detail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, TITLE, COMMENT_COUNT, VIEW_COUNT, LIKE_COUNT, TAGS, CREATED_BY, CREATE_DATE, 
+    UPDATE_DATE
+  </sql>
+  <sql id="Blob_Column_List">
+    DETAIL
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="io.github.aioves.community.model.QuestionExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="io.github.aioves.community.model.QuestionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QUESTION
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from QUESTION
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="io.github.aioves.community.model.QuestionExample">
+    delete from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="io.github.aioves.community.model.Question">
+    insert into QUESTION (ID, TITLE, COMMENT_COUNT, 
+      VIEW_COUNT, LIKE_COUNT, TAGS, 
+      CREATED_BY, CREATE_DATE, UPDATE_DATE, 
+      DETAIL)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{commentCount,jdbcType=INTEGER}, 
+      #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, 
+      #{createdBy,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{detail,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="io.github.aioves.community.model.Question">
+    insert into QUESTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="commentCount != null">
+        COMMENT_COUNT,
+      </if>
+      <if test="viewCount != null">
+        VIEW_COUNT,
+      </if>
+      <if test="likeCount != null">
+        LIKE_COUNT,
+      </if>
+      <if test="tags != null">
+        TAGS,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="detail != null">
+        DETAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null">
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="io.github.aioves.community.model.QuestionExample" resultType="java.lang.Long">
+    select count(*) from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update QUESTION
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentCount != null">
+        COMMENT_COUNT = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.viewCount != null">
+        VIEW_COUNT = #{record.viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.likeCount != null">
+        LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.tags != null">
+        TAGS = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdBy != null">
+        CREATED_BY = #{record.createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.detail != null">
+        DETAIL = #{record.detail,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update QUESTION
+    set ID = #{record.id,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      COMMENT_COUNT = #{record.commentCount,jdbcType=INTEGER},
+      VIEW_COUNT = #{record.viewCount,jdbcType=INTEGER},
+      LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
+      TAGS = #{record.tags,jdbcType=VARCHAR},
+      CREATED_BY = #{record.createdBy,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      DETAIL = #{record.detail,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update QUESTION
+    set ID = #{record.id,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      COMMENT_COUNT = #{record.commentCount,jdbcType=INTEGER},
+      VIEW_COUNT = #{record.viewCount,jdbcType=INTEGER},
+      LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
+      TAGS = #{record.tags,jdbcType=VARCHAR},
+      CREATED_BY = #{record.createdBy,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="io.github.aioves.community.model.Question">
+    update QUESTION
+    <set>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null">
+        COMMENT_COUNT = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        VIEW_COUNT = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null">
+        LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null">
+        TAGS = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        DETAIL = #{detail,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="io.github.aioves.community.model.Question">
+    update QUESTION
+    set TITLE = #{title,jdbcType=VARCHAR},
+      COMMENT_COUNT = #{commentCount,jdbcType=INTEGER},
+      VIEW_COUNT = #{viewCount,jdbcType=INTEGER},
+      LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
+      TAGS = #{tags,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      DETAIL = #{detail,jdbcType=CLOB}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.github.aioves.community.model.Question">
+    update QUESTION
+    set TITLE = #{title,jdbcType=VARCHAR},
+      COMMENT_COUNT = #{commentCount,jdbcType=INTEGER},
+      VIEW_COUNT = #{viewCount,jdbcType=INTEGER},
+      LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
+      TAGS = #{tags,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="io.github.aioves.community.model.QuestionExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="io.github.aioves.community.model.QuestionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from QUESTION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

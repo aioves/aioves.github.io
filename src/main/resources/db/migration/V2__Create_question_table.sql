@@ -28,7 +28,7 @@ comment on column question.update_date is '最后修改时间';
 
 comment on column question.created_by is '创建人';
 
-comment on column question.comment_cout is '回复数';
+comment on column question.comment_count is '回复数';
 
 comment on column question.view_count is '浏览数';
 

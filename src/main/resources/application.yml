@@ -33,3 +33,5 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+  type-aliases-package: io.github.aioves.community.model
+  mapper-locations: classpath:mapper/*.xml

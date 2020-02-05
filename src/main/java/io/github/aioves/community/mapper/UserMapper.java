@@ -1,38 +1,33 @@
 package io.github.aioves.community.mapper;
 
 import io.github.aioves.community.model.User;
-import org.apache.ibatis.annotations.*;
-
+import io.github.aioves.community.model.UserExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
-/**
- * @Title:
- * @Remarks:
- * @Author: <a href="mailto:aioves@foxmail.com>aioves</a>
- * @Version: 1.0.0
- * @Date: 2020-02-03 12:28
- */
-@Mapper
 public interface UserMapper {
+    long countByExample(UserExample example);
 
-    @Insert("insert into user(login, name, bio, avatar_url, account_id, token) values(#{login}, #{name}, #{bio}, #{avatarUrl}, #{accountId}, #{token})")
-    void insert(User user);
+    int deleteByExample(UserExample example);
 
-    @Select("select * from user where token=#{token}")
-    User findUserByToken(@Param("token") String token);
+    int deleteByPrimaryKey(Integer userId);
 
-    @Update("update user set token=#{token}, update_date=CURRENT_TIMESTAMP where user_id=#{userId}")
-    void  updateTokenByUserId(@Param("userId") Long userId, @Param("token") String token);
+    int insert(User record);
 
-    @Select("select * from user")
-    List<User> findAll();
+    int insertSelective(User record);
 
-    @Select("select * from user where user_id=#{userId}")
-    User findUserByUserId(@Param("userId") Long userId);
+    List<User> selectByExampleWithRowbounds(UserExample example, RowBounds rowBounds);
 
-    @Select("select * from user where account_id=#{accountId}")
-    User findUserByAccountId(@Param("accountId") String accountId);
+    List<User> selectByExample(UserExample example);
 
-    @Update("update user set login=#{login}, name=#{name}, avatar_url=#{avatarUrl}, token=#{token}, update_date=#{updateDate} where user_id=#{userId}")
-    void update(User dbUser);
+    User selectByPrimaryKey(Integer userId);
+
+    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByPrimaryKeySelective(User record);
+
+    int updateByPrimaryKey(User record);
 }

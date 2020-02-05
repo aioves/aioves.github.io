@@ -5,12 +5,15 @@ import io.github.aioves.community.dto.QuestionDTO;
 import io.github.aioves.community.mapper.QuestionMapper;
 import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.Question;
+import io.github.aioves.community.model.QuestionExample;
 import io.github.aioves.community.model.User;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ public class QuestionService {
         ArrayList<QuestionDTO> questionDTOArrayList = new ArrayList<>();
 
         Integer offset = pageSize * (page - 1);
-        List<Question> questionList = questionMapper.findQuestionByPager(offset, pageSize);
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, pageSize));
 
         for(int index=0, size=questionList.size(); index<size; index++) {
             QuestionDTO questionDTO = new QuestionDTO();
@@ -41,13 +44,13 @@ public class QuestionService {
             Question question = questionList.get(index);
             BeanUtils.copyProperties(question, questionDTO);
 
-            User user = userMapper.findUserByUserId(question.getCreatedBy());
+            User user = userMapper.selectByPrimaryKey(question.getCreatedBy());
             questionDTO.setUser(user);
 
             questionDTOArrayList.add(questionDTO);
         }
 
-        int totalCount = questionMapper.count();
+        int totalCount = (int) questionMapper.countByExample(new QuestionExample());
         if(totalCount==0) {
             return new PaginationDTO();
         }
@@ -64,11 +67,13 @@ public class QuestionService {
         return pagination;
     }
 
-    public PaginationDTO list(Long userId, Integer page, Integer pageSize) {
+    public PaginationDTO list(int userId, Integer page, Integer pageSize) {
         ArrayList<QuestionDTO> questionDTOArrayList = new ArrayList<>();
 
         Integer offset = pageSize * (page - 1);
-        List<Question> questionList = questionMapper.findQuestionByUserWithPager(userId,offset,pageSize);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andCreatedByEqualTo(userId);
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, pageSize));
 
         for(int index=0, size=questionList.size(); index<size; index++) {
             QuestionDTO questionDTO = new QuestionDTO();
@@ -76,13 +81,15 @@ public class QuestionService {
             Question question = questionList.get(index);
             BeanUtils.copyProperties(question, questionDTO);
 
-            User user = userMapper.findUserByUserId(question.getCreatedBy());
+            User user = userMapper.selectByPrimaryKey(question.getCreatedBy());
             questionDTO.setUser(user);
 
             questionDTOArrayList.add(questionDTO);
         }
 
-        int totalCount = questionMapper.countByUserId(userId);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andCreatedByEqualTo(userId);
+        int totalCount = (int) questionMapper.countByExample(example);
         int totalPage = totalCount%pageSize==0?totalCount/pageSize:totalCount/pageSize+1;
         if(page>totalPage) {
             page = totalPage;
@@ -95,15 +102,22 @@ public class QuestionService {
         return pagination;
     }
 
-    public Question findQuestionById(long id) {
-        return questionMapper.findQuestionById(id);
+    public Question findQuestionById(Integer id) {
+        return questionMapper.selectByPrimaryKey(id);
     }
 
     public void insert(Question question) {
+        question.setCommentCount(0);
+        question.setLikeCount(0);
+        question.setViewCount(0);
+        question.setCreateDate(Calendar.getInstance().getTime());
+        question.setUpdateDate(Calendar.getInstance().getTime());
         questionMapper.insert(question);
     }
 
     public void update(Question question) {
-        questionMapper.update(question);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andIdEqualTo(question.getId());
+        questionMapper.updateByExampleSelective(question, example);
     }
 }

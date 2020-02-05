@@ -9,6 +9,7 @@
 + [okhttp](https://square.github.io/okhttp/)
 + [H2 database](http://www.h2database.com/html/quickstart.html)
 + [flyway](https://flywaydb.org/getstarted/)
++ [MyBatis Generator](http://mybatis.org/generator/quickstart.html)
 
 ## 工具
 
@@ -17,3 +18,13 @@
 + Thymeleaf
 + Bootstrap
 + H2 database
+
+## 脚本
+
+````bash
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+
+````bash
+mvn flyway:migrate
+```

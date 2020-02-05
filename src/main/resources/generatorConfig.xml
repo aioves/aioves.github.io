@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    
+    <context id="h2Tables" targetRuntime="MyBatis3">
+
+        <!--分页-->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <!--序列化-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        
+        <commentGenerator>
+            <!--移除注释-->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        
+        <!--数据库连接信息-->
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:~/community"
+                        userId="aioves"
+                        password="aioves">
+        </jdbcConnection>
+
+        <!--Java数据类型解析器-->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--Java 模型-->
+        <javaModelGenerator targetPackage="io.github.aioves.community.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!--映射文件-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--Mapper-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="io.github.aioves.community.mapper"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--表-->
+        <table tableName="USER" domainObjectName="User" ></table>
+        <table tableName="QUESTION" domainObjectName="Question" ></table>
+
+    </context>
+</generatorConfiguration>

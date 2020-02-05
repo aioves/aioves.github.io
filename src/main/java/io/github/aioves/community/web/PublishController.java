@@ -33,7 +33,7 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping(path = "{id}")
-    public String edit(@PathVariable("id") Long id,
+    public String edit(@PathVariable("id") int id,
                        Model model) {
 
        Question question = questionService.findQuestionById(id);
@@ -48,7 +48,7 @@ public class PublishController {
     }
 
     @PostMapping
-    public String doPublish(@RequestParam(name = "id") Long id,
+    public String doPublish(@RequestParam(name = "id") Integer id,
                             @RequestParam(name = "title") String title,
                             @RequestParam(name = "detail") String detail,
                             @RequestParam(name = "tags") String tags,
@@ -117,6 +117,6 @@ public class PublishController {
             log.info(info);
         }
 
-        return "redirect:/index";
+        return "index";
     }
 }

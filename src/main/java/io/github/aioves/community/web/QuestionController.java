@@ -29,11 +29,11 @@ public class QuestionController {
     private UserMapper userMapper;
 
     @GetMapping(path = "/question/{id}")
-    public String question(@PathVariable(name = "id") Long id,
+    public String question(@PathVariable(name = "id") int id,
                            Model model){
 
         Question question = questionService.findQuestionById(id);
-        User user = userMapper.findUserByUserId(question.getCreatedBy());
+        User user = userMapper.selectByPrimaryKey(question.getCreatedBy());
 
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);

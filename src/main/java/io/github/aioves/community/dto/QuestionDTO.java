@@ -16,10 +16,10 @@ import java.util.Date;
 @Data
 public class QuestionDTO  implements Serializable {
 
-    private Long id;
+    private int id;
     private String title;
     private String detail;
-    private Long createdBy;
+    private int createdBy;
     private Date createDate;
     private Date updateDate;
     private Integer commentCount;

@@ -1,53 +1,41 @@
 package io.github.aioves.community.mapper;
 
 import io.github.aioves.community.model.Question;
-import org.apache.ibatis.annotations.*;
-
+import io.github.aioves.community.model.QuestionExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
-/**
- * @Title:
- * @Remarks:
- * @Author: <a href="mailto:aioves@foxmail.com>aioves</a>
- * @Version: 1.0.0
- * @Date: 2020-02-03 18:00
- */
-@Mapper
 public interface QuestionMapper {
+    long countByExample(QuestionExample example);
 
-    @Insert("insert into question(title, detail, tags, created_by) values(#{title}, #{detail}, #{tags}, #{createdBy})")
-    void insert(Question question);
+    int deleteByExample(QuestionExample example);
 
-    @Update("update question set comment_count=#{commentCount} where id=#{id} ")
-    void updateCommentCountById(@Param("id") Long id, @Param("commentCount") Integer commentCount);
+    int deleteByPrimaryKey(Integer id);
 
-    @Update("update question set view_count=#{viewCount} where id=#{id} ")
-    void updateViewCountById(@Param("id") Long id, @Param("viewCount") Integer viewCount);
+    int insert(Question record);
 
-    @Update("update question set like_count=#{likeCount} where id=#{id} ")
-    void updateLikeCountById(@Param("id") Long id, @Param("likeCount") Integer likeCount);
+    int insertSelective(Question record);
 
-    @Select("select * from question")
-    List<Question> findAll();
+    List<Question> selectByExampleWithBLOBsWithRowbounds(QuestionExample example, RowBounds rowBounds);
 
-    @Select("select count(1) from question")
-    Integer count();
+    List<Question> selectByExampleWithBLOBs(QuestionExample example);
 
-    @Select("select * from question limit #{offset}, #{pageSize}")
-    List<Question> findQuestionByPager(@Param("offset") Integer offset,
-                                       @Param("pageSize") Integer pageSize);
+    List<Question> selectByExampleWithRowbounds(QuestionExample example, RowBounds rowBounds);
 
-    @Select("select count(1) from question where created_by=#{userId}")
-    Integer countByUserId(@Param("userId") Long userId);
+    List<Question> selectByExample(QuestionExample example);
 
-    @Select("select * from question where created_by=#{userId} limit #{offset}, #{pageSize}")
-    List<Question> findQuestionByUserWithPager(@Param("userId") Long userId,
-                                                @Param("offset") Integer offset,
-                                                @Param("pageSize") Integer pageSize);
+    Question selectByPrimaryKey(Integer id);
 
-    @Select("select * from question where id=#{id}")
-    Question findQuestionById(@Param("id") long id);
+    int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
 
-    @Update("update question set title=#{title}, detail=#{detail}, tags=#{tags}, update_date=#{updateDate} where id=#{id}")
-    void update(Question question);
+    int updateByExampleWithBLOBs(@Param("record") Question record, @Param("example") QuestionExample example);
+
+    int updateByExample(@Param("record") Question record, @Param("example") QuestionExample example);
+
+    int updateByPrimaryKeySelective(Question record);
+
+    int updateByPrimaryKeyWithBLOBs(Question record);
+
+    int updateByPrimaryKey(Question record);
 }
