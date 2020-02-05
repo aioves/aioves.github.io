@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Random;
 
@@ -31,11 +32,6 @@ import java.util.Random;
 @Controller
 public class IndexController {
 
-    private final static Random random = new Random();
-
-    @Value("${github.app.login.authorize.url}")
-    private String authorizeUrl;
-
     @Autowired
     private UserMapper userMapper;
 
@@ -47,10 +43,6 @@ public class IndexController {
                        @RequestParam(name = "pageSize",required = false, defaultValue = "10") Integer pageSize,
                        Model model,
                        HttpServletRequest request) {
-        Integer state = random.nextInt(10)*12+17;
-        log.info("state={}", state);
-
-        model.addAttribute("authorizeUrl", authorizeUrl + state);
 
         /*页从1开始*/
         if(page<=0){
@@ -77,4 +69,5 @@ public class IndexController {
                         HttpServletRequest request) {
         return home(page, pageSize, model, request);
     }
+
 }

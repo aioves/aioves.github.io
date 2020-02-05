@@ -22,3 +22,15 @@
 .right-top {
     margin-top: 64px;
 }
+
+.icon-font {
+    font-size: 28px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}

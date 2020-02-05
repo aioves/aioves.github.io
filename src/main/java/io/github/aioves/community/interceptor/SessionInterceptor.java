@@ -2,6 +2,7 @@ package io.github.aioves.community.interceptor;
 
 import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.User;
+import io.github.aioves.community.utils.Contents;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,12 +34,12 @@ public class SessionInterceptor implements HandlerInterceptor {
         if(null!=cookies) {
             for(int index = 0, len = cookies.length; index<len; index++) {
                 Cookie cookie = cookies[index];
-                if("token".equals(cookie.getName())) {
+                if(Contents.COOKIE_NAME.equals(cookie.getName())) {
                     String token = cookie.getValue();
                     log.info("token={}", token);
                     User user = userMapper.findUserByToken(token);
                     if(null!=user) {
-                        request.getSession().setAttribute("usr", user);
+                        request.getSession().setAttribute(Contents.SESSION_NAME, user);
                     }
 
                     break;

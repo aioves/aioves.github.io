@@ -2,6 +2,7 @@ package io.github.aioves.community.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @Date: 2020-02-04 1:18
  */
 @Data
-public class PaginationDTO {
+public class PaginationDTO  implements Serializable {
 
     /*页数从1开始*/
     private Integer firstPage=1;

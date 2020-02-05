@@ -3,6 +3,7 @@ package io.github.aioves.community.dto;
 import io.github.aioves.community.model.User;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @Date: 2020-02-04 0:17
  */
 @Data
-public class QuestionDTO {
+public class QuestionDTO  implements Serializable {
 
     private Long id;
     private String title;

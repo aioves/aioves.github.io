@@ -3,6 +3,7 @@ package io.github.aioves.community.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @Date: 2020-02-02 21:10
  */
 @Data
-public class User {
+public class User implements Serializable {
 
     private Long userId;
     private String login;

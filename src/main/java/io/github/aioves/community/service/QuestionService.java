@@ -94,4 +94,16 @@ public class QuestionService {
 
         return pagination;
     }
+
+    public Question findQuestionById(long id) {
+        return questionMapper.findQuestionById(id);
+    }
+
+    public void insert(Question question) {
+        questionMapper.insert(question);
+    }
+
+    public void update(Question question) {
+        questionMapper.update(question);
+    }
 }

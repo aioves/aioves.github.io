@@ -3,6 +3,8 @@ package io.github.aioves.community.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Title:
  * @Remarks:
@@ -11,7 +13,7 @@ import lombok.Data;
  * @Date: 2020-02-02 19:55
  */
 @Data
-public class AccessTokenDTO {
+public class AccessTokenDTO implements Serializable {
 
     @JSONField(name = "client_id")
     private String clientId;

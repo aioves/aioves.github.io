@@ -44,4 +44,10 @@ public interface QuestionMapper {
     List<Question> findQuestionByUserWithPager(@Param("userId") Long userId,
                                                 @Param("offset") Integer offset,
                                                 @Param("pageSize") Integer pageSize);
+
+    @Select("select * from question where id=#{id}")
+    Question findQuestionById(@Param("id") long id);
+
+    @Update("update question set title=#{title}, detail=#{detail}, tags=#{tags}, update_date=#{updateDate} where id=#{id}")
+    void update(Question question);
 }

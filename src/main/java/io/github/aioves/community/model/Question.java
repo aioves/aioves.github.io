@@ -2,6 +2,7 @@ package io.github.aioves.community.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * @Date: 2020-02-03 18:01
  */
 @Data
-public class Question {
+public class Question implements Serializable {
 
     private Long id;
     private String title;

@@ -3,11 +3,12 @@ package io.github.aioves.community;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CommunityApplicationTests {
+public class CommunityApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+
+
     }
 
 }

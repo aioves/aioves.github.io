@@ -6,43 +6,41 @@
 <header th:insert="~{fragment/header :: header}"></header>
 
 <div class="container">
-    <div class="row" th:if="${error} != null">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>错误!</strong> <span th:text="${error}"></span>
-        </div>
-    </div>
+    <!--消息-->
+    <div class="row" th:insert="~{fragment/prompt :: prompt}"></div>
 
     <div class="row">
         <!--左侧栏-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+
             <div class="page-header">
-                <h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h3>
+                <h3><span class="iconfont icon-bianji  icon-font"></span>&nbsp;&nbsp;发起</h3>
             </div>
 
             <form action="/publish" th:action="@{~/publish}" method="post" th:method="post">
+                <input type="hidden" name="id" th:value="${question.id}">
+
                 <div class="form-group">
                     <label for="title">问题标题(简单扼要)：</label>
-                    <input type="text" class="form-control" name="title" id="title" placeholder="简明标题">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="简明标题" th:value="${question.title}">
                 </div>
 
                 <div class="form-group">
                     <label for="detail">问题补充(必填，参照问题指南)：</label>
-                    <textarea class="form-control" rows="10" name="detail"></textarea>
+                    <textarea class="form-control" rows="10" name="detail" th:utext="${question.detail}"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="tags">添加标签：</label>
-                    <input type="text" class="form-control" name="tags" id="tags" placeholder="标签">
+                    <input type="text" class="form-control" name="tags" id="tags" placeholder="标签" th:value="${question.tags}">
                 </div>
                 <button type="submit" class="btn btn-info btn-size publish-btn">发布</button>
             </form>
-
         </div>
         <!--右侧栏-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="page-header right-top">
-                <h3>问题发起指南</h3>
+                <h3><span class="iconfont icon-help icon-font"></span>&nbsp;&nbsp;问题发起指南</h3>
                 <div>
                     <ul>
                         <li>问题标题：请用精简的语言描述您发布的问题，不超过25个字</li>

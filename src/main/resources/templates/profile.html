@@ -6,12 +6,8 @@
 <header th:insert="~{fragment/header :: header}"></header>
 
 <div class="container">
-    <div class="row" th:if="${error} != null">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>错误!</strong> <span th:text="${error}"></span>
-        </div>
-    </div>
+    <!--消息-->
+    <div class="row" th:insert="~{fragment/prompt :: prompt}"></div>
 
     <div class="row">
         <!--左侧栏-->
@@ -27,7 +23,10 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <a th:href="@{'/question/'+${question.id}}">
+                        <h4 class="media-heading" th:text="${question.title}"></h4>
+                    </a>
+
                     <span class="list-font">
                          .<span th:text="${question.commentCount}">12</span>个回复
                          .<span th:text="${question.viewCount}">17</span>次浏览
@@ -37,17 +36,18 @@
                 </div>
             </div>
 
+            <!--分页条-->
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li th:if="${pagination.showFirstPage}">
                         <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.firstPage}, pageSize=${pagination.pageSize})}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;&lt;</span>
+                            <span class="iconfont icon-arrowleft"></span>
                         </a>
                     </li>
 
                     <li th:if="${pagination.showPrevious}">
                         <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.page-1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;</span>
+                            <span class="iconfont icon-zuojiantou"></span>
                         </a>
                     </li>
 
@@ -57,13 +57,13 @@
 
                     <li th:if="${pagination.showNext}">
                         <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.page+1}, pageSize=${pagination.pageSize})}" aria-label="Previous">
-                            <span aria-hidden="true">&gt;</span>
+                            <span class="iconfont icon-youjiantou"></span>
                         </a>
                     </li>
 
                     <li th:if="${pagination.showEndPage}">
                         <a th:href="@{'/profile/'+${section}(action=${section},page=${pagination.totalPage}, pageSize=${pagination.pageSize})}" aria-label="Next">
-                            <span aria-hidden="true">&gt;&gt;</span>
+                            <span class="iconfont icon-arrowright"></span>
                         </a>
                     </li>
                 </ul>
@@ -73,10 +73,10 @@
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group right-top">
                 <a th:href="@{~/profile/questions}" th:class=" ${section=='questions'}?'active list-group-item':'list-group-item'">
-                    我的问题
+                    <span class="iconfont icon-xinxi"></span>&nbsp;&nbsp;我的问题
                 </a>
                 <a th:href="@{~/profile/replies}" th:class=" ${section=='replies'}?'active list-group-item':'list-group-item'">
-                    最新回复 <span class="badge">14</span>
+                    <span class="iconfont icon-yujing"></span>&nbsp;&nbsp;最新回复 <span class="badge">14</span>
                 </a>
 
             </div>

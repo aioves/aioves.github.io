@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="m">
+<head th:insert="~{fragment/head :: head}"></head>
+<body>
+
+<header th:insert="~{fragment/header :: header}"></header>
+
+<div class="container">
+    <!--消息-->
+    <div class="row" th:insert="~{fragment/prompt :: prompt}"></div>
+
+    <div class="row">
+        <!--左侧栏-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <div class="page-header">
+                <h3 th:text="${question.title}"></h3>
+            </div>
+            <span>
+                作者：<span th:text="${question.user.login}"></span>
+                发布时间：<span th:text="${#calendars.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                阅读数：<span th:text="${question.viewCount}"></span>
+            </span>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.detail}">
+
+            </div>
+
+            <hr col-lg-12 col-md-12 col-sm-12 col-xs-12>
+
+            <span>
+                <a th:href="@{'/publish/'+${question.id}}" title="编辑" th:if="${session.usr}" style="margin-right: 20px">
+                    <span class="iconfont icon-bianji1  icon-font"></span>编辑
+                </a>
+                <a title="分享" style="margin-right: 20px">
+                    <span class="iconfont icon-fenxiang2  icon-font"></span>分享
+                </a>
+            </span>
+            <span style="float: right;">
+                <a title="举报">
+                    <span class="iconfont icon-weifajubao  icon-font"></span>举报
+                </a>
+            </span>
+
+
+        </div>
+        <!--右侧栏-->
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="page-header">
+                <!--发起人-->
+                <h4>发起人</h4>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" th:src="${question.user.avatarUrl}" th:alt="${question.user.login}" width="38" height="38">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${question.user.login}">Media heading</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
