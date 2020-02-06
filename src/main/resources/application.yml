@@ -1,13 +1,10 @@
 logging:
   level:
-    root: info
-    web: debug
+    root: warn
+    web: warn
     io:
       github:
-        aioves:
-          community:
-            mapper: debug
-            web: debug
+        aioves: debug
     org:
       h2: debug
       apache:

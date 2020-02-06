@@ -7,6 +7,8 @@ import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.Question;
 import io.github.aioves.community.model.QuestionExample;
 import io.github.aioves.community.model.User;
+import io.github.aioves.community.utils.Contents;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import java.util.List;
  * @Version: 1.0.0
  * @Date: 2020-02-04 0:18
  */
+@Slf4j
 @Service
 public class QuestionService {
 
@@ -119,5 +122,25 @@ public class QuestionService {
         QuestionExample example = new QuestionExample();
         example.createCriteria().andIdEqualTo(question.getId());
         questionMapper.updateByExampleSelective(question, example);
+    }
+
+    /*阅读数递增*/
+    public void incView(int id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+
+        Question updateQuestion = new Question();
+        updateQuestion.setViewCount(question.getViewCount()+1);
+        updateQuestion.setUpdateDate(Calendar.getInstance().getTime());
+
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andIdEqualTo(id);
+
+        int updateRows = questionMapper.updateByExampleSelective(updateQuestion, example);
+        if(updateRows==0) {
+            log.error("inc {}  {}", updateRows, Contents.ERROR);
+        } else if(updateRows>0) {
+            log.info("inc {}  {}",  updateRows, Contents.SUCCESS);
+        }
+
     }
 }

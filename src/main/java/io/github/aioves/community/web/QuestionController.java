@@ -43,6 +43,8 @@ public class QuestionController {
             throw new CustomizeException(Contents.GREETING);
         }
 
+        questionService.incView(id);
+
         User user = userMapper.selectByPrimaryKey(question.getCreatedBy());
 
         QuestionDTO questionDTO = new QuestionDTO();
