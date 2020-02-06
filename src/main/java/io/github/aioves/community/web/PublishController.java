@@ -1,7 +1,5 @@
 package io.github.aioves.community.web;
 
-import io.github.aioves.community.mapper.QuestionMapper;
-import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.Question;
 import io.github.aioves.community.model.User;
 import io.github.aioves.community.service.QuestionService;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 
@@ -55,12 +52,10 @@ public class PublishController {
                             HttpServletRequest request,
                             Model model) {
 
-        User user = (User) request.getSession().getAttribute("usr");
-        String info = "";
+        User user = (User) request.getSession().getAttribute(Contents.SESSION_NAME);
         if(null == user) {
-            info = "用户未登录";
-            model.addAttribute(Contents.ERROR, info);
-            log.warn("{}", info);
+            model.addAttribute(Contents.ERROR, Contents.USER_NOT_LOGIN);
+            log.warn("{}", Contents.USER_NOT_LOGIN);
             return "publish";
         }
 
@@ -74,47 +69,41 @@ public class PublishController {
         /*合法性校验*/
         /*标题*/
         if(StringUtils.isEmpty(title)) {
-            info = "标题不能为空";
-            model.addAttribute(Contents.ERROR, info);
-            log.warn("{}", info);
+            model.addAttribute(Contents.ERROR, Contents.QUESTION_TITLE_IS_NULL);
+            log.warn("{}", Contents.QUESTION_TITLE_IS_NULL);
             return "publish";
         }
 
-        if(title.length()>50) {
-            info = "标题太长，不能超过25个字符";
-            model.addAttribute(Contents.ERROR, info);
-            log.warn("{}", info);
+        if(title.length()>Contents.QUESTION_TITLE_LENGTH) {
+            model.addAttribute(Contents.ERROR, Contents.QUESTION_TITLE_TOO_LONG);
+            log.warn("{}", Contents.QUESTION_TITLE_TOO_LONG);
             return "publish";
         }
         log.info("{}", model);
         /*问题详情*/
         if(StringUtils.isEmpty(detail)) {
-            info = "问题详情不能为空";
-            model.addAttribute(Contents.ERROR, info);
-            log.warn("{}", info);
+            model.addAttribute(Contents.ERROR, Contents.QUESTION_DETAIL_IS_NULL);
+            log.warn("{}", Contents.QUESTION_DETAIL_IS_NULL);
             return "publish";
         }
 
         /*标签*/
         if(StringUtils.isEmpty(tags)) {
-            info = "标签不能为空";
-            model.addAttribute(Contents.ERROR, info);
-            log.warn("{}", info);
+            model.addAttribute(Contents.ERROR, Contents.QUESTION_TAGS_IS_NULL);
+            log.warn("{}", Contents.QUESTION_TAGS_IS_NULL);
             return "publish";
         }
 
         if(null==id) {//新增
             questionService.insert(question);
-            info = "发布成功！";
-            model.addAttribute(Contents.SUCCESS, info);
-            log.info(info);
+            model.addAttribute(Contents.SUCCESS, Contents.QUESTION_SEND_SUCCESS);
+            log.info(Contents.QUESTION_SEND_SUCCESS);
         } else  {//修改
             question.setId(id);
             question.setUpdateDate(Calendar.getInstance().getTime());
             questionService.update(question);
-            info = "修改成功！";
-            model.addAttribute(Contents.SUCCESS, info);
-            log.info(info);
+            model.addAttribute(Contents.SUCCESS, Contents.QUESTION_UPDATE_SUCCESS);
+            log.info(Contents.QUESTION_UPDATE_SUCCESS);
         }
 
         return "index";

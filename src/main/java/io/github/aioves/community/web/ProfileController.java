@@ -4,6 +4,7 @@ import io.github.aioves.community.dto.PaginationDTO;
 import io.github.aioves.community.mapper.UserMapper;
 import io.github.aioves.community.model.User;
 import io.github.aioves.community.service.QuestionService;
+import io.github.aioves.community.utils.Contents;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,10 +42,10 @@ public class ProfileController {
                           HttpServletRequest request,
                           Model model) {
 
-        User user = (User) request.getSession().getAttribute("usr");
+        User user = (User) request.getSession().getAttribute(Contents.SESSION_NAME);
 
         if(null == user) {
-            model.addAttribute("error", "用户未登录");
+            model.addAttribute(Contents.ERROR, Contents.USER_NOT_LOGIN);
             return "index";
         }
 

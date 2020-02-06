@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="m">
+<head th:insert="~{fragment/head :: head}">
+</head>
+<body>
+
+<header th:insert="~{fragment/header :: header}"></header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3><span class="iconfont icon-cuowutishi" style="color: red;font-size: 28px; font-weight: bold;"></span>
+                        人生难免会犯错，服务器也会歇菜哟！
+                        <span class="iconfont icon-toys icon-font" style="color: blueviolet;"></span></h3>
+                    <p th:text="${message}">
+
+                    </p>
+                    <p>
+                        <a class="btn btn-info btn-lg" href="/" role="button" alt="返回到主页" style="float: right">
+                            <span class="iconfont icon-shouye icon-font" ></span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
