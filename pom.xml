@@ -18,7 +18,7 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <h2.database.version>1.4.200</h2.database.version>
+        <h2.database.version>2.1.210</h2.database.version>
     </properties>
 
     <repositories>
